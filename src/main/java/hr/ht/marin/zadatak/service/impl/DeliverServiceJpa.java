@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import hr.ht.marin.zadatak.dao.DeliveryRepository;
@@ -12,6 +13,7 @@ import hr.ht.marin.zadatak.entitiy.Delivery;
 import hr.ht.marin.zadatak.entitiy.DeliveryStatus;
 import hr.ht.marin.zadatak.service.DeliveryService;
 
+@Service
 public class DeliverServiceJpa implements DeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
