@@ -1,10 +1,14 @@
 package hr.ht.marin.zadatak.entitiy;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,6 +31,9 @@ public class Delivery {
     @NotBlank(message = "Client phone number cannot be empty")
     private String clientPhoneNumber;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message = "The order's time of creation cannot be null")
+    private LocalDateTime orderCreationTime;
     @Enumerated
     @NotNull(message = "Delivery status cannot be empty")
     private DeliveryStatus status;
@@ -39,6 +46,7 @@ public class Delivery {
             @NotBlank(message = "Client name cannot be empty") String clientName,
             @NotBlank(message = "Client surname cannot be empty") String clientSurname,
             @NotBlank(message = "Client phone number cannot be empty") String clientPhoneNumber,
+            @NotNull(message = "The order's time of creation cannot be null") LocalDateTime orderCreationTime,
             @NotNull(message = "Delivery status cannot be empty") DeliveryStatus status,
             @NotNull(message = "The phone being delivered cannot be null") Phone phone) {
         this.deliveryAddress = deliveryAddress;
@@ -46,6 +54,7 @@ public class Delivery {
         this.clientName = clientName;
         this.clientSurname = clientSurname;
         this.clientPhoneNumber = clientPhoneNumber;
+        this.orderCreationTime = orderCreationTime;
         this.status = status;
         this.phone = phone;
     }
@@ -95,6 +104,12 @@ public class Delivery {
     }
     public void setPhone(Phone phone) {
         this.phone = phone;
+    }
+    public LocalDateTime getOrderCreationTime() {
+        return orderCreationTime;
+    }
+    public void setOrderCreationTime(LocalDateTime orderCreationTime) {
+        this.orderCreationTime = orderCreationTime;
     }
 
     @Override

@@ -17,4 +17,11 @@ public interface PhoneService {
      * @return The Phone.
      */
     public Phone getPhone(String manufacturer, String modelName);
+
+    /**
+     * Adds a new phone to the database.
+     * @param phone The phone being added.
+     * @return The added phone.
+     */
+    public Phone addPhone(Phone phone);
 }

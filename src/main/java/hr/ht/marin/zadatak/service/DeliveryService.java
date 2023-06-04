@@ -1,7 +1,7 @@
 package hr.ht.marin.zadatak.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import hr.ht.marin.zadatak.entitiy.Delivery;
 import hr.ht.marin.zadatak.entitiy.DeliveryStatus;
@@ -17,9 +17,9 @@ public interface DeliveryService {
     /**
      * Fetches all deliveries with the specified delivery status.
      * @param status The requested status.
-     * @return A list of deliveries.
+     * @return A set of deliveries.
      */
-    List<Delivery> getDeliveriesByStatus(DeliveryStatus status);
+    Set<Delivery> getDeliveriesByStatus(DeliveryStatus status);
     
     /**
      * Fetches every delivery created within the specified interval. If {@code start} is
@@ -30,5 +30,12 @@ public interface DeliveryService {
      * @param end The end of the interval.
      * @return All events created within the specified interval.
      */
-    List<Delivery> getDeliveriesInInterval(LocalDateTime start, LocalDateTime end);
+    Set<Delivery> getDeliveriesInInterval(LocalDateTime start, LocalDateTime end);
+
+    /**
+     * Adds a delivery to the database.
+     * @param delivery The delivery that's being added.
+     * @return The added delivery.
+     */
+    Delivery addDelivery(Delivery delivery);
 }
