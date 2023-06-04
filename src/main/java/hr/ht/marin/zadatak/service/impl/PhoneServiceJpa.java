@@ -15,6 +15,8 @@ public class PhoneServiceJpa implements PhoneService {
 
     @Override
     public Phone getPhone(Long id) {
+        Assert.notNull(id, "ID cannot be null");
+
         Optional<Phone> phone = phoneRepository.findById(id);
         if(phone.isPresent()) return phone.get();
         return null;
@@ -22,6 +24,9 @@ public class PhoneServiceJpa implements PhoneService {
 
     @Override
     public Phone getPhone(String manufacturer, String modelName) {
+        Assert.notNull(manufacturer, "Manufacturer cannot be null");
+        Assert.notNull(modelName, "Model name cannot be null");
+
         Optional<Phone> phone = phoneRepository.findByName(manufacturer, modelName);
         if(phone.isPresent()) return phone.get();
         return null;
