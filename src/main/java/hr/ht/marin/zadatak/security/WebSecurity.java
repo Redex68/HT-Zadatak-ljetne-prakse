@@ -20,9 +20,11 @@ public class WebSecurity {
             managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
         .authorizeHttpRequests((authorise) -> authorise
-            .anyRequest().permitAll()
+            .requestMatchers("/h2-console/**").permitAll()
+            .anyRequest().authenticated()
         )
         .csrf((csrf) -> csrf.disable())
+        .headers((headers) -> headers.frameOptions(options -> options.disable()))
         .httpBasic(Customizer.withDefaults());
 
         return http.build();
