@@ -1,16 +1,19 @@
 package hr.ht.marin.zadatak.entitiy;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -25,6 +28,8 @@ public class Delivery {
     @NotNull(message = "Billing address cannot be empty")
     @ManyToOne
     private Address billingAddress;
+    @ManyToOne
+    private Address returnAddress;
     @NotBlank(message = "Client name cannot be empty")
     private String clientName;
     @NotBlank(message = "Client surname cannot be empty")
@@ -38,9 +43,9 @@ public class Delivery {
     @Enumerated
     @NotNull(message = "Delivery status cannot be empty")
     private DeliveryStatus status;
-    @NotNull(message = "The phone being delivered cannot be null")
-    @ManyToOne
-    private Phone phone;
+    @NotEmpty(message = "The list of delivery items cannot be empty")
+    @ManyToMany
+    private List<DeliveryItem> items;
 
     public Delivery(@NotNull(message = "Delivery address cannot be empty") Address deliveryAddress,
             @NotNull(message = "Billing address cannot be empty") Address billingAddress,
@@ -49,7 +54,7 @@ public class Delivery {
             @NotBlank(message = "Client phone number cannot be empty") String clientPhoneNumber,
             @NotNull(message = "The order's time of creation cannot be null") LocalDateTime orderCreationTime,
             @NotNull(message = "Delivery status cannot be empty") DeliveryStatus status,
-            @NotNull(message = "The phone being delivered cannot be null") Phone phone) {
+            @NotEmpty(message = "The list of delivery items cannot be empty") List<DeliveryItem> items) {
         this.deliveryAddress = deliveryAddress;
         this.billingAddress = billingAddress;
         this.clientName = clientName;
@@ -57,11 +62,12 @@ public class Delivery {
         this.clientPhoneNumber = clientPhoneNumber;
         this.orderCreationTime = orderCreationTime;
         this.status = status;
-        this.phone = phone;
+        this.items = items;
     }
 
     public Delivery() {
     }
+
 
     public UUID getId() {
         return id;
@@ -79,6 +85,12 @@ public class Delivery {
     public void setBillingAddress(Address billingAddress) {
         this.billingAddress = billingAddress;
     }
+    public Address getReturnAddress() {
+        return returnAddress;
+    }
+    public void setReturnAddress(Address returnAddress) {
+        this.returnAddress = returnAddress;
+    }
     public String getClientName() {
         return clientName;
     }
@@ -88,6 +100,7 @@ public class Delivery {
     public String getClientSurname() {
         return clientSurname;
     }
+
     public void setClientSurname(String clientSurname) {
         this.clientSurname = clientSurname;
     }
@@ -97,23 +110,23 @@ public class Delivery {
     public void setClientPhoneNumber(String clientPhoneNumber) {
         this.clientPhoneNumber = clientPhoneNumber;
     }
+    public LocalDateTime getOrderCreationTime() {
+        return orderCreationTime;
+    }
+    public void setOrderCreationTime(LocalDateTime orderCreationTime) {
+        this.orderCreationTime = orderCreationTime;
+    }
     public DeliveryStatus getStatus() {
         return status;
     }
     public void setStatus(DeliveryStatus status) {
         this.status = status;
     }
-    public Phone getPhone() {
-        return phone;
+    public List<DeliveryItem> getItems() {
+        return items;
     }
-    public void setPhone(Phone phone) {
-        this.phone = phone;
-    }
-    public LocalDateTime getOrderCreationTime() {
-        return orderCreationTime;
-    }
-    public void setOrderCreationTime(LocalDateTime orderCreationTime) {
-        this.orderCreationTime = orderCreationTime;
+    public void setItems(List<DeliveryItem> items) {
+        this.items = items;
     }
 
     @Override

@@ -61,11 +61,11 @@ public class DeliveryController {
         Assert.notNull(delivery, "Cannot add an empty delivery");
         Assert.notNull(delivery.getDeliveryAddress(), "Cannot add a delivery with an empty delivery address");
         Assert.notNull(delivery.getBillingAddress(), "Cannot add a delivery with an empty billing address");
-        Assert.notNull(delivery.getPhone(), "Cannot add a delivery with an empty phone");
+        Assert.notNull(delivery.getItems(), "Cannot add a delivery with an no items");
 
         addressService.addAddress(delivery.getBillingAddress());
         addressService.addAddress(delivery.getDeliveryAddress());
-        phoneService.addPhone(delivery.getPhone());
+        if(delivery.getReturnAddress() != null) addressService.addAddress(delivery.getReturnAddress());
 
         deliveryService.addDelivery(delivery);
     }
