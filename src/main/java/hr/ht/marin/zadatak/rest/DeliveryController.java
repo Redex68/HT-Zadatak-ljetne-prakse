@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hr.ht.marin.zadatak.entitiy.Delivery;
 import hr.ht.marin.zadatak.entitiy.DeliveryStatus;
+import hr.ht.marin.zadatak.rest.dto.DeliveryCreatorDTO;
 import hr.ht.marin.zadatak.rest.dto.IntervalDTO;
 import hr.ht.marin.zadatak.service.AddressService;
+import hr.ht.marin.zadatak.service.DeliveryItemService;
 import hr.ht.marin.zadatak.service.DeliveryService;
 import hr.ht.marin.zadatak.service.PhoneService;
 
@@ -25,7 +27,8 @@ public class DeliveryController {
     @Autowired DeliveryService deliveryService;
     @Autowired AddressService addressService;
     @Autowired PhoneService phoneService;
-    
+    @Autowired DeliveryItemService deliveryItemService;
+
     @GetMapping("public/delivery/{id}")
     @Secured({})
     public Delivery getDelivery(@PathVariable("id") UUID id)
@@ -38,7 +41,7 @@ public class DeliveryController {
     }
 
     @GetMapping("public/delivery/interval")
-    @Secured({"ROLE_EMPLYEE"})
+    @Secured({"ROLE_EMPLOYEE"})
     public Set<Delivery> getDeliveriesFromInterval(@RequestBody IntervalDTO interval) {
         Assert.notNull(interval, "Intervall cannot be empty");
         if(interval.start() == null && interval.end() == null)
@@ -48,7 +51,7 @@ public class DeliveryController {
     }
 
     @GetMapping("/delivery/status/{status}")
-    @Secured({"ROLE_EMPLYEE"})
+    @Secured({"ROLE_EMPLOYEE"})
     public Set<Delivery> getDeliveriesByStatus(@PathVariable("status") DeliveryStatus status) {
         Assert.notNull(status, "Status cannot be empty");
 
@@ -57,7 +60,7 @@ public class DeliveryController {
 
     @PostMapping("/delivery")
     @Secured("ROLE_ADMIN")
-    public void addDelivery(@RequestBody Delivery delivery) {
+    public void addDelivery(@RequestBody DeliveryCreatorDTO delivery) {
         Assert.notNull(delivery, "Cannot add an empty delivery");
         Assert.notNull(delivery.getDeliveryAddress(), "Cannot add a delivery with an empty delivery address");
         Assert.notNull(delivery.getBillingAddress(), "Cannot add a delivery with an empty billing address");
@@ -67,7 +70,7 @@ public class DeliveryController {
         addressService.addAddress(delivery.getDeliveryAddress());
         if(delivery.getReturnAddress() != null) addressService.addAddress(delivery.getReturnAddress());
 
-        deliveryService.addDelivery(delivery);
+        deliveryService.addDelivery(delivery.toDelivery(deliveryItemService));
     }
 
     @DeleteMapping("/delivery/{id}")
