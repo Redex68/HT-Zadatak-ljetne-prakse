@@ -10,7 +10,7 @@ public interface DeliveryService {
     /**
      * Fetches the delivery with the specified ID.
      * @param id The delivery's ID.
-     * @return A Delivery object.
+     * @return A Delivery object or {@code null} if no such delivery exists.
      */
     Delivery getDelivery(Long id);
 

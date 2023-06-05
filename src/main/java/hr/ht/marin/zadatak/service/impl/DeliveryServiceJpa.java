@@ -14,7 +14,7 @@ import hr.ht.marin.zadatak.entitiy.DeliveryStatus;
 import hr.ht.marin.zadatak.service.DeliveryService;
 
 @Service
-public class DeliverServiceJpa implements DeliveryService {
+public class DeliveryServiceJpa implements DeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
