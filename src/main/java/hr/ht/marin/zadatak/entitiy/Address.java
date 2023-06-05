@@ -36,6 +36,11 @@ public class Address {
         this.streetAddress = streetAddress;
     }
     
+    public Address() {
+    }
+
+
+
     public Long getId() {
         return id;
     }

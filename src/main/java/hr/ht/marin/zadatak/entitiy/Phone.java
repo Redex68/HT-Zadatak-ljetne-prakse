@@ -30,6 +30,9 @@ public class Phone {
         this.modelName = modelName;
         this.price = price;
     }
+    
+    public Phone() {
+    }
 
     public Long getId() {
         return id;

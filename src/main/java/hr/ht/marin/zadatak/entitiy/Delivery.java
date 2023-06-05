@@ -59,6 +59,9 @@ public class Delivery {
         this.phone = phone;
     }
 
+    public Delivery() {
+    }
+
     public Long getId() {
         return id;
     }

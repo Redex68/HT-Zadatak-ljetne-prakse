@@ -32,6 +32,9 @@ public class AppUser {
         this.auth = auth;
     }
 
+    public AppUser() {
+    }
+
     public Long getId() {
         return id;
     }
