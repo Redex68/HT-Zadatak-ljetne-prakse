@@ -65,6 +65,27 @@ public class Delivery {
         this.items = items;
     }
 
+    public Delivery(@NotNull(message = "Delivery address cannot be empty") Address deliveryAddress,
+            @NotNull(message = "Billing address cannot be empty") Address billingAddress, Address returnAddress,
+            @NotBlank(message = "Client name cannot be empty") String clientName,
+            @NotBlank(message = "Client surname cannot be empty") String clientSurname,
+            @NotBlank(message = "Client phone number cannot be empty") String clientPhoneNumber,
+            @NotNull(message = "The order's time of creation cannot be null") LocalDateTime orderCreationTime,
+            @NotNull(message = "Delivery status cannot be empty") DeliveryStatus status,
+            @NotEmpty(message = "The list of delivery items cannot be empty") List<DeliveryItem> items) {
+        this.deliveryAddress = deliveryAddress;
+        this.billingAddress = billingAddress;
+        this.returnAddress = returnAddress;
+        this.clientName = clientName;
+        this.clientSurname = clientSurname;
+        this.clientPhoneNumber = clientPhoneNumber;
+        this.orderCreationTime = orderCreationTime;
+        this.status = status;
+        this.items = items;
+    }
+
+
+
     public Delivery() {
     }
 
