@@ -19,8 +19,7 @@ public class DeliveryServiceJpa implements DeliveryService {
     private DeliveryRepository deliveryRepository;
 
     @Override
-    public Delivery getDelivery(Long id) {
-        if(id == null) throw new IllegalArgumentException("Delivery ID is null");
+    public Delivery getDelivery(long id) {
         Optional<Delivery> delivery = deliveryRepository.findById(id);
 
         if(delivery.isPresent()) return delivery.get();
@@ -49,5 +48,10 @@ public class DeliveryServiceJpa implements DeliveryService {
         Assert.isNull(delivery.getId(), "Cannot add a deliery with a predefined ID");
 
         return deliveryRepository.save(delivery);
+    }
+
+    @Override
+    public void removeDelivery(long id) {
+        deliveryRepository.deleteById(id);
     }
 }

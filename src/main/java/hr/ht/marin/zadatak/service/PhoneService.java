@@ -8,7 +8,7 @@ public interface PhoneService {
      * @param id The ID of the phone.
      * @return A Phone object.
      */
-    public Phone getPhone(Long id);
+    public Phone getPhone(long id);
 
     /**
      * Fetches the phone from the specified manufacturer.
@@ -24,4 +24,10 @@ public interface PhoneService {
      * @return The added phone.
      */
     public Phone addPhone(Phone phone);
+
+    /**
+     * Removes the phone from the database.
+     * @param id The ID of the phone that's being removed.
+     */
+    public void removePhone(long id);
 }

@@ -16,9 +16,7 @@ public class PhoneServiceJpa implements PhoneService {
     private PhoneRepository phoneRepository;
 
     @Override
-    public Phone getPhone(Long id) {
-        Assert.notNull(id, "ID cannot be null");
-
+    public Phone getPhone(long id) {
         Optional<Phone> phone = phoneRepository.findById(id);
         if(phone.isPresent()) return phone.get();
         return null;
@@ -41,4 +39,8 @@ public class PhoneServiceJpa implements PhoneService {
         return phoneRepository.save(phone);
     }
     
+    @Override
+    public void removePhone(long id) {
+        phoneRepository.deleteById(id);
+    }
 }

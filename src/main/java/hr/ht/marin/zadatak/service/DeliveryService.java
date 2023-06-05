@@ -12,7 +12,7 @@ public interface DeliveryService {
      * @param id The delivery's ID.
      * @return A Delivery object or {@code null} if no such delivery exists.
      */
-    Delivery getDelivery(Long id);
+    Delivery getDelivery(long id);
 
     /**
      * Fetches all deliveries with the specified delivery status.
@@ -38,4 +38,10 @@ public interface DeliveryService {
      * @return The added delivery.
      */
     Delivery addDelivery(Delivery delivery);
+
+    /**
+     * Removes the delivery with the specified ID from the database.
+     * @param id The ID of the delivery.
+     */
+    void removeDelivery(long id);
 }

@@ -15,9 +15,7 @@ public class AddressServiceJpa implements AddressService {
     @Autowired AddressRepository addressRepository;
 
     @Override
-    public Address getAddress(Long id) {
-        Assert.notNull(id, "ID cannot be null");
-        
+    public Address getAddress(long id) {
         Optional<Address> address =addressRepository.findById(id);
         if(address.isPresent()) return address.get();
         else return null;
@@ -28,6 +26,11 @@ public class AddressServiceJpa implements AddressService {
         Assert.notNull(address, "New address cannot be null");
 
         return addressRepository.save(address);
+    }
+
+    @Override
+    public void removeAddress(long id) {
+        addressRepository.deleteById(id);
     }
     
 }

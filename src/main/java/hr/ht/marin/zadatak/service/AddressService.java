@@ -8,7 +8,7 @@ public interface AddressService {
      * @param id The address' ID.
      * @return An address object.
      */
-    Address getAddress(Long id);
+    Address getAddress(long id);
 
     /**
      * Add a new address to the database.
@@ -16,4 +16,10 @@ public interface AddressService {
      * @return The newly added address.
      */
     Address addAddress(Address address);
+
+    /**
+     * Removes the address with the specified ID from the database.
+     * @param id The ID of the address.
+     */
+    void removeAddress(long id);
 }
