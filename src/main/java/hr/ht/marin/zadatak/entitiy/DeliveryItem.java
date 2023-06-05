@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+/**
+ * An abstract representation of an item in a delivery/shipment.
+ */
 @Entity
 public abstract class DeliveryItem {
     @Id

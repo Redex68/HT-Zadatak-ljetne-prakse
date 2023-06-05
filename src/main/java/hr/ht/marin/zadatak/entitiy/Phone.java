@@ -6,6 +6,10 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Represents a phone model. Individual instances of this class do not represent physical phones, only
+ * phone models.
+ */
 @Entity
 @Table(
     uniqueConstraints = @UniqueConstraint(columnNames = {"modelName", "manufacturer"})

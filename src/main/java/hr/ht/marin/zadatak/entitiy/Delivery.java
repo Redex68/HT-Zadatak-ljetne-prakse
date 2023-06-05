@@ -16,6 +16,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * An entity representing a single shipment. Each delivery has a reference to a list of
+ * items in the delivery as well as other information related to the delivery.
+ */
 @Entity
 public class Delivery {
     @Id
