@@ -2,6 +2,7 @@ package hr.ht.marin.zadatak.service;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 import hr.ht.marin.zadatak.entitiy.Delivery;
 import hr.ht.marin.zadatak.entitiy.DeliveryStatus;
@@ -12,7 +13,7 @@ public interface DeliveryService {
      * @param id The delivery's ID.
      * @return A Delivery object or {@code null} if no such delivery exists.
      */
-    Delivery getDelivery(long id);
+    Delivery getDelivery(UUID id);
 
     /**
      * Fetches all deliveries with the specified delivery status.
@@ -43,5 +44,5 @@ public interface DeliveryService {
      * Removes the delivery with the specified ID from the database.
      * @param id The ID of the delivery.
      */
-    void removeDelivery(long id);
+    void removeDelivery(UUID id);
 }

@@ -3,6 +3,7 @@ package hr.ht.marin.zadatak.service.impl;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,8 @@ public class DeliveryServiceJpa implements DeliveryService {
     private DeliveryRepository deliveryRepository;
 
     @Override
-    public Delivery getDelivery(long id) {
+    public Delivery getDelivery(UUID id) {
+        Assert.notNull(id, "Delivery ID cannot be null");
         Optional<Delivery> delivery = deliveryRepository.findById(id);
 
         if(delivery.isPresent()) return delivery.get();
@@ -51,7 +53,9 @@ public class DeliveryServiceJpa implements DeliveryService {
     }
 
     @Override
-    public void removeDelivery(long id) {
+    public void removeDelivery(UUID id) {
+        Assert.notNull(id, "Delivery ID cannot be null");
+        
         deliveryRepository.deleteById(id);
     }
 }

@@ -1,10 +1,12 @@
 package hr.ht.marin.zadatak.rest;
 
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,9 +28,13 @@ public class DeliveryController {
     
     @GetMapping("public/delivery/{id}")
     @Secured({})
-    public Delivery getDelivery(@PathVariable("id") Long id)
+    public Delivery getDelivery(@PathVariable("id") UUID id)
     {
-        return deliveryService.getDelivery(id);
+        Assert.notNull(id, "Delivery ID cannot be null");
+
+        Delivery delivery = deliveryService.getDelivery(id);
+        if(delivery == null) throw new NotFoundException("No delivery with the specified ID was found");
+        else return delivery;
     }
 
     @GetMapping("public/delivery/interval")
@@ -41,10 +47,9 @@ public class DeliveryController {
         return deliveryService.getDeliveriesInInterval(interval.start(), interval.end());
     }
 
-    @GetMapping("public/delivery/status/{status}")
+    @GetMapping("/delivery/status/{status}")
     @Secured({"ROLE_EMPLYEE"})
-    public Set<Delivery> getDeliveriesByStatus(@PathVariable("status") DeliveryStatus status)
-    {
+    public Set<Delivery> getDeliveriesByStatus(@PathVariable("status") DeliveryStatus status) {
         Assert.notNull(status, "Status cannot be empty");
 
         return deliveryService.getDeliveriesByStatus(status);
@@ -52,8 +57,7 @@ public class DeliveryController {
 
     @PostMapping("/delivery")
     @Secured("ROLE_ADMIN")
-    public void addDelivery(@RequestBody Delivery delivery)
-    {
+    public void addDelivery(@RequestBody Delivery delivery) {
         Assert.notNull(delivery, "Cannot add an empty delivery");
         Assert.notNull(delivery.getDeliveryAddress(), "Cannot add a delivery with an empty delivery address");
         Assert.notNull(delivery.getBillingAddress(), "Cannot add a delivery with an empty billing address");
@@ -64,5 +68,13 @@ public class DeliveryController {
         phoneService.addPhone(delivery.getPhone());
 
         deliveryService.addDelivery(delivery);
+    }
+
+    @DeleteMapping("/delivery/{id}")
+    @Secured("ROLE_ADMIN")
+    public void removeDelivery(@PathVariable("id") UUID id) {
+        Assert.notNull(id, "Delivery ID cannot be null");
+
+        deliveryService.removeDelivery(id);
     }
 }

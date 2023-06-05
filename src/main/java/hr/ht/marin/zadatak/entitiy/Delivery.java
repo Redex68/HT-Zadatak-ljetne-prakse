@@ -1,6 +1,7 @@
 package hr.ht.marin.zadatak.entitiy;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -16,7 +17,7 @@ import jakarta.validation.constraints.NotNull;
 public class Delivery {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @NotNull(message = "Delivery address cannot be empty")
     @ManyToOne
@@ -62,7 +63,7 @@ public class Delivery {
     public Delivery() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
