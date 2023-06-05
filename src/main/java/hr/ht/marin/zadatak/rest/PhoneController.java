@@ -1,45 +1,39 @@
 package hr.ht.marin.zadatak.rest;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hr.ht.marin.zadatak.entitiy.Phone;
+import hr.ht.marin.zadatak.service.PhoneService;
 
 @RestController
-@RequestMapping("/phone")
 public class PhoneController {
-    List<String> removedPhones = new ArrayList<>();
+    @Autowired PhoneService phoneService;
 
-    @GetMapping("/{modelName}")
-    @Secured("ROLE_USER")
-    public Phone getPhone(@PathVariable("modelName") String modelName)
+    @GetMapping("public/phone/{manufacturer}/{modelName}")
+    @Secured({})
+    public Phone getPhone(@PathVariable("manufacturer") String manufacturer, @PathVariable("modelName") String modelName)
     {
-        if(modelName == null) throw new IllegalArgumentException("Unknown phone model");
-        if(removedPhones.contains(modelName)) throw new IllegalArgumentException("Phone was deleted");
-        switch(modelName)
-        {
-            case "Galaxy S23":
-                return new Phone("Samsung", "Galaxy S23", 1000.0);
-            case "Galaxy Z Fold":
-                return new Phone("Samsung", "Galaxy Z Fold", 2000.0);
-            case "Fairphone 4":
-                return new Phone("Fairphone", "Fairphone 4", 700.0);
-            default:
-                throw new IllegalArgumentException("Unknown phone model");
-        }
+        Assert.notNull(manufacturer, "Unknown phone manufacturer");
+        Assert.notNull(modelName, "Unknown phone model");
+        
+        Phone phone = phoneService.getPhone(manufacturer, modelName);
+        if(phone == null) throw new NotFoundException("Phone doesn't exist in the database");
+        else return phone;
     }
 
-    @DeleteMapping("/{modelName}")
+    @DeleteMapping("phone/{id}")
     @Secured("ROLE_ADMIN")
-    public void removePhone(@PathVariable("modelName") String modelName)
+    public void removePhone(@PathVariable("id") Long id)
     {
-        removedPhones.add(modelName);
+        Assert.notNull(id, "No phone ID");
+
+        phoneService.removePhone(id);
     }
 }
