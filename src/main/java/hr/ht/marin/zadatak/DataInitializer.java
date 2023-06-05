@@ -62,11 +62,11 @@ public class DataInitializer {
             deliveries[i] = deliveryService.addDelivery(deliveries[i]);
 
         AppUser users[] = {
-            new AppUser("admin",  pEncoder.encode("admin lozinka"),       List.of(AuthLevel.ROLE_ADMIN, AuthLevel.ROLE_EMPLYEE)),
-            new AppUser("admin2", pEncoder.encode("admin tajna lozinka"), List.of(AuthLevel.ROLE_ADMIN, AuthLevel.ROLE_EMPLYEE)),
-            new AppUser("ana",    pEncoder.encode("ana123"),              List.of(AuthLevel.ROLE_EMPLYEE)),
-            new AppUser("jurica", pEncoder.encode("jurica123"),           List.of(AuthLevel.ROLE_EMPLYEE)),
-            new AppUser("stipe",  pEncoder.encode("stipe123"),            List.of(AuthLevel.ROLE_EMPLYEE)),
+            new AppUser("admin",  pEncoder.encode("admin lozinka"),       List.of(AuthLevel.ROLE_ADMIN, AuthLevel.ROLE_EMPLOYEE)),
+            new AppUser("admin2", pEncoder.encode("admin tajna lozinka"), List.of(AuthLevel.ROLE_ADMIN, AuthLevel.ROLE_EMPLOYEE)),
+            new AppUser("ana",    pEncoder.encode("ana123"),              List.of(AuthLevel.ROLE_EMPLOYEE)),
+            new AppUser("jurica", pEncoder.encode("jurica123"),           List.of(AuthLevel.ROLE_EMPLOYEE)),
+            new AppUser("stipe",  pEncoder.encode("stipe123"),            List.of(AuthLevel.ROLE_EMPLOYEE)),
         };
 
         for(AppUser user: users)

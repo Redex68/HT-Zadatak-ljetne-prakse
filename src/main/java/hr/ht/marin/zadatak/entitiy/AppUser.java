@@ -5,7 +5,6 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,9 +12,6 @@ import jakarta.validation.constraints.NotEmpty;
 @Entity
 public class AppUser {
     @Id
-    @GeneratedValue
-    private Long id;
-
     @NotBlank(message = "Username cannot be blank")
     private String username;
     @NotBlank(message = "Password cannot be blank")
@@ -35,9 +31,6 @@ public class AppUser {
     public AppUser() {
     }
 
-    public Long getId() {
-        return id;
-    }
     public String getUsername() {
         return username;
     }
@@ -57,11 +50,25 @@ public class AppUser {
         this.auth = auth;
     }
 
+
+    public String authoritiesToString() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append(auth.get(0).toString());
+        for(int i = 1; i < auth.size(); i++) {
+            sBuilder.append(',');
+            sBuilder.append(auth.get(i).toString());
+        }
+
+        return sBuilder.toString();
+    }
+
+
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
 
@@ -74,10 +81,10 @@ public class AppUser {
         if (getClass() != obj.getClass())
             return false;
         AppUser other = (AppUser) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (username == null) {
+            if (other.username != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!username.equals(other.username))
             return false;
         return true;
     }

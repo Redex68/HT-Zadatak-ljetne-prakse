@@ -6,20 +6,23 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import hr.ht.marin.zadatak.entitiy.AppUser;
+import hr.ht.marin.zadatak.service.AppUserService;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
-    @Autowired
-    PasswordEncoder encoder;
+    @Autowired AppUserService appUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if(username.equals("admin"))
-            return new User(username, encoder.encode("admin lozinka"), AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN"));
-        else
-            return new User(username, encoder.encode("lozinka"), AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
+        AppUser user = appUserService.getUser(username);
+        return new User(
+            user.getUsername(), 
+            user.getPassword(), 
+            AuthorityUtils.commaSeparatedStringToAuthorityList(user.authoritiesToString())
+        );
     }
     
 }

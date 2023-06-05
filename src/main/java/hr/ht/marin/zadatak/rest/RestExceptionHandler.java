@@ -16,12 +16,22 @@ import java.util.Map;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<?> handleIllegalArgument(Exception e, WebRequest req) {
+    protected ResponseEntity<?> handleAnyException(Exception e, WebRequest req) {
         // e.printStackTrace();
         Map<String, String> props = new HashMap<>();
         props.put("message", e.getMessage());
         props.put("status", "400");
         props.put("error", "Bad request");
         return new ResponseEntity<>(props, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    protected ResponseEntity<?> handleNotFound(Exception e, WebRequest req) {
+        // e.printStackTrace();
+        Map<String, String> props = new HashMap<>();
+        props.put("message", e.getMessage());
+        props.put("status", "404");
+        props.put("error", "Not found");
+        return new ResponseEntity<>(props, HttpStatus.NOT_FOUND);
     }
 }
