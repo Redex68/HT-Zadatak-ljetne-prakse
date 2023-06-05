@@ -29,9 +29,17 @@ public class DeliveryController {
     @Autowired PhoneService phoneService;
     @Autowired DeliveryItemService deliveryItemService;
 
-    @GetMapping("public/delivery/{id}")
+    /**
+     * Fetches the delivery specified by the UUID {@code id}. If no such delivery exists a NotFoundException
+     * is thrown and 404 is returned.
+     * Is publicly accessible without need for authentication.
+     * @param id The ID of the delivery.
+     * @return The Delivery if such exists.
+     * @throws NotFoundException If no such delivery exists.
+     */
+    @GetMapping("/public/delivery/{id}")
     @Secured({})
-    public Delivery getDelivery(@PathVariable("id") UUID id)
+    public Delivery getDelivery(@PathVariable("id") UUID id) throws NotFoundException
     {
         Assert.notNull(id, "Delivery ID cannot be null");
 
@@ -40,9 +48,17 @@ public class DeliveryController {
         else return delivery;
     }
 
-    @GetMapping("public/delivery/interval")
+    /**
+     * Fetches all deliveries created in the specified interval. One end of the interval can be ommited
+     * to return all events occuring up to or after the remaining point.
+     * Visible only to employees and requires authorization.
+     * @param interval The interval.
+     * @return A set containing all of the deliveries created in the specified interval.
+     * @throws IllegalArgumentException If both ends of the interval are missing.
+     */
+    @GetMapping("/delivery/interval")
     @Secured({"ROLE_EMPLOYEE"})
-    public Set<Delivery> getDeliveriesFromInterval(@RequestBody IntervalDTO interval) {
+    public Set<Delivery> getDeliveriesFromInterval(@RequestBody IntervalDTO interval) throws IllegalArgumentException {
         Assert.notNull(interval, "Intervall cannot be empty");
         if(interval.start() == null && interval.end() == null)
             throw new IllegalArgumentException("The start and end of the intervall cannot both be empty at the same time");
@@ -50,17 +66,30 @@ public class DeliveryController {
         return deliveryService.getDeliveriesInInterval(interval.start(), interval.end());
     }
 
+    /**
+     * Fetches all deliveries with the specified status.
+     * Visible only to employees and requires authorization.
+     * @param status The status of the deliveries.
+     * @return A set of deliveries which have the specified status.
+     * @throws IllegalArgumentException If the status is not a valid delivery status.
+     */
     @GetMapping("/delivery/status/{status}")
     @Secured({"ROLE_EMPLOYEE"})
-    public Set<Delivery> getDeliveriesByStatus(@PathVariable("status") DeliveryStatus status) {
+    public Set<Delivery> getDeliveriesByStatus(@PathVariable("status") DeliveryStatus status) throws IllegalArgumentException {
         Assert.notNull(status, "Status cannot be empty");
 
         return deliveryService.getDeliveriesByStatus(status);
     }
 
+    /**
+     * Adds a new delivery to the repository.
+     * Visible only to admins and requires authorization.
+     * @param delivery The delivery being added.
+     * @throws IllegalArgumentException If one of the mandatory fields is missing.
+     */
     @PostMapping("/delivery")
     @Secured("ROLE_ADMIN")
-    public void addDelivery(@RequestBody DeliveryCreatorDTO delivery) {
+    public void addDelivery(@RequestBody DeliveryCreatorDTO delivery) throws IllegalArgumentException {
         Assert.notNull(delivery, "Cannot add an empty delivery");
         Assert.notNull(delivery.getDeliveryAddress(), "Cannot add a delivery with an empty delivery address");
         Assert.notNull(delivery.getBillingAddress(), "Cannot add a delivery with an empty billing address");
@@ -73,10 +102,16 @@ public class DeliveryController {
         deliveryService.addDelivery(delivery.toDelivery(deliveryItemService));
     }
 
+    /**
+     * Removes a delivery from the repository.
+     * Visible only to admins and requires authorization.
+     * @param id The ID of the delivery being removed.
+     * @throws IllegalArgumentException If the ID is not defined.
+     */
     @DeleteMapping("/delivery/{id}")
     @Secured("ROLE_ADMIN")
-    public void removeDelivery(@PathVariable("id") UUID id) {
-        Assert.notNull(id, "Delivery ID cannot be null");
+    public void removeDelivery(@PathVariable("id") UUID id) throws IllegalArgumentException {
+        Assert.notNull(id, "Delivery ID cannot be empty");
 
         deliveryService.removeDelivery(id);
     }
