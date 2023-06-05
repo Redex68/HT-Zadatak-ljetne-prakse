@@ -43,8 +43,8 @@ public class DataInitializer {
         };
 
         SimCard simCards[] = {
-            new SimCard("Internet+", 0.01),
-            new SimCard("Neogranicena", 0.01),
+            new SimCard("Internet+",    0.01, "54141364412341261"),
+            new SimCard("Neogranicena", 0.01, "36115368489646864"),
         };
 
         Address addresses[] = {
